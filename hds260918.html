@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>메모장 - 삭제 + 개수 표시</title>
+<style>
+  body { font-family: sans-serif; max-width: 420px; margin: 40px auto; }
+  #count { font-weight: bold; margin-bottom: 16px; }
+  .memo { display: flex; justify-content: space-between; align-items: center;
+          border: 1px solid #ccc; border-radius: 6px; padding: 8px 12px; margin-bottom: 6px; }
+  .memo button { margin-left: 8px; }
+  #input-row { margin-top: 16px; display: flex; gap: 6px; }
+  #memo-input { flex: 1; padding: 6px; }
+</style>
+</head>
+<body>
+
+  <div id="count">현재 메모 개수: 0개</div>
+
+  <div id="memo-list"></div>
+
+  <div id="input-row">
+    <input type="text" id="memo-input" placeholder="메모를 입력하세요">
+    <button onclick="addMemo()">추가</button>
+  </div>
+
+<script>
+  // 실습 1(개수 표시) 조건: let 변수로 메모 개수 관리
+  let memoCount = 0;
+
+  function updateCountDisplay() {
+    document.getElementById("count").textContent = "현재 메모 개수: " + memoCount + "개";
+  }
+
+  function addMemo() {
+    const input = document.getElementById("memo-input");
+    const text = input.value.trim();
+    if (text === "") return;
+
+    // 메모 요소 생성
+    const memoDiv = document.createElement("div");
+    memoDiv.className = "memo";
+
+    const span = document.createElement("span");
+    span.textContent = text;
+
+    // 실습 1: 삭제 버튼 추가 (element.remove() 사용)
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "삭제";
+    deleteBtn.onclick = function () {
+      memoDiv.remove();        // 해당 메모만 화면에서 삭제
+      memoCount--;              // 개수 1 감소
+      updateCountDisplay();
+    };
+
+    memoDiv.appendChild(span);
+    memoDiv.appendChild(deleteBtn);
+    document.getElementById("memo-list").appendChild(memoDiv);
+
+    memoCount++;                // 개수 1 증가
+    updateCountDisplay();
+
+    input.value = "";
+    input.focus();
+  }
+
+  // 엔터키로도 추가 가능하게
+  document.getElementById("memo-input").addEventListener("keydown", function(e) {
+    if (e.key === "Enter") addMemo();
+  });
+</script>
+
+</body>
+</html>
