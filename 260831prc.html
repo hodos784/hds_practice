@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>input 연습3</title>
+        <style>
+            .box {
+                padding: 15px;
+                margin: 10px;
+                background: lightblue;
+                border-radius: 8px;
+            }
+            .count {
+                color: gray;
+                font-size: 8px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h3>메모 추가하기</h3>
+        <input
+            id="textinput"
+            placeholder="메모를 입력하세요"
+            maxlength="20">
+        <button id="addBtn">추가</button>
+        <p class="count">
+            <span id="length">0</span> / 20
+        </p>
+        <div id="container"></div>
+
+        <script>
+            const input = document.querySelector("#textinput");
+            const addBtn = document.querySelector("#addBtn");
+            const container = document.querySelector("#container");
+            const length = document.querySelector("#length");
+
+            input.addEventListener("input", () => {
+                length.textContent = input.value.length;
+            });
+
+            function addMemo() {
+                const value = input.value.trim();
+                if(value == "") {
+                    alert("내용을 입력하세요");
+                    return;
+                }
+
+                // addMemo 함수 내부에 위치해야 합니다.
+                const box = document.createElement("div");
+                box.classList.add("box");
+                box.textContent = value;
+                container.appendChild(box);
+                
+                input.value = "";
+                length.textContent = "0";
+                input.focus();
+            }
+
+            addBtn.addEventListener("click", () => {
+                addMemo();
+            });
+        </script>
+    </body>
+</html>
